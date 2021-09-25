@@ -2,18 +2,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InvoiceService {
-    private static final double DISTANCE_KM_FARE_RATE = 10, TIME_MIN_FARE_RATE = 1, MINIMUM_FARE = 5;
     private static ArrayList<Ride> ridesList;
     private static HashMap<String, ArrayList<Ride>> userRidesMap;
 
-    InvoiceService(){
+    InvoiceService() {
         ridesList = new ArrayList<>();
         userRidesMap = new HashMap<>();
     }
 
     public double calculateFare(Ride ride) {
-        double totalFare = ride.getDistance().getDistanceInKm() * DISTANCE_KM_FARE_RATE + ride.getTime().getTimeInMin() * TIME_MIN_FARE_RATE;
-        return Math.max(totalFare, MINIMUM_FARE);
+        double totalFare = ride.getDistance().getDistanceInKm() * ride.getType().getRatePerKm() + ride.getTime().getTimeInMin() * ride.getType().getRatePerMin();
+        return Math.max(totalFare, ride.getType().getMinRate());
     }
 
 
@@ -45,6 +44,8 @@ public class InvoiceService {
         StringBuilder showRideDetails = new StringBuilder();
         showRideDetails.append("User Id:").append(userId);
         for (Ride ride : userRidesMap.get(userId)) {
+            showRideDetails.append("\nRide Type: ");
+            showRideDetails.append(ride.getType());
             showRideDetails.append("\nDistance: ");
             showRideDetails.append(ride.getDistance().getDistanceInKm());
             showRideDetails.append("\tTime: ");

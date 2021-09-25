@@ -1,7 +1,9 @@
 public class Ride {
     private final MeasuredUnit distance, time;
+    private final RideType type;
 
-    public Ride(MeasuredUnit distance, MeasuredUnit time) {
+    public Ride(RideType type,MeasuredUnit distance, MeasuredUnit time) {
+        this.type =type;
         this.distance = distance;
         this.time = time;
     }
@@ -12,5 +14,9 @@ public class Ride {
 
     public MeasuredUnit getTime() {
         return time;
+    }
+
+    public RideType getType() {
+        return type;
     }
 }
