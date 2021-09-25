@@ -6,11 +6,15 @@ public class InvoiceService {
         return Math.max(totalFare, MINIMUM_FARE);
     }
 
-    public double getFare(Ride[] rideList) {
+    public double getTotalAggregateFare(Ride[] rideList) {
         double totalAggregateFare = 0;
         for (Ride ride : rideList) {
             totalAggregateFare += calculateFare(ride);
         }
         return totalAggregateFare;
+    }
+
+    public String getSummary(Ride[] rideList) {
+        return "Total number of rides: " + rideList.length + "\nTotal fare amount: " + getTotalAggregateFare(rideList) + "\nAverage Fare per ride: " + (getTotalAggregateFare(rideList) / rideList.length);
     }
 }
