@@ -15,14 +15,14 @@ public class InvoiceServiceTest {
     }
 
     @Test
-    public void given2KmAnd5Min_shouldReturn25TotalFare() {
+    public void given2KmAnd5Min_NormalRide_shouldReturn25AsTotalNormalRideFare() {
         Ride ride = new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0));
         double fare = invoice.calculateFare(ride);
         Assertions.assertEquals(25, fare);
     }
 
     @Test
-    public void given100MeterAnd1Min_shouldReturnMinimumFare() {
+    public void given100MeterAnd1Min_NormalRide_shouldReturnMinimumNormalRideFare() {
         Ride ride = new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 100.0), new MeasuredUnit(Unit.MIN, 1.0));
         double fare = invoice.calculateFare(ride);
         Assertions.assertEquals(5, fare);
@@ -30,21 +30,23 @@ public class InvoiceServiceTest {
 
     @Test
     public void givenMultipleRides_shouldReturnAggregateTotalFare() {
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
-        double totalAggregateFare = invoice.getTotalAggregateFare("1");
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
+        invoice.addRides("abc1", rideList);
+        double totalAggregateFare = invoice.getTotalAggregateFare("abc1");
         double expectedResult = 38.0;
         Assertions.assertEquals(expectedResult, totalAggregateFare, 0.01);
     }
 
     @Test
     public void givenMultipleRides_shouldReturnInvoiceSummary() {
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 4.0)));
-        String invoiceSummary = invoice.getSummary("1");
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 4.0)));
+        invoice.addRides("abc1", rideList);
+        String invoiceSummary = invoice.getInvoiceSummary("abc1");
         double noOfRides = 4.0, totalAggregateFare = 44.0, averageFarePerRide = 11.0;
         String expectedSummary = "Total number of rides: " + noOfRides + "\nTotal fare amount: " + totalAggregateFare + "\nAverage Fare per ride: " + averageFarePerRide;
         Assertions.assertEquals(expectedSummary, invoiceSummary);
@@ -52,47 +54,16 @@ public class InvoiceServiceTest {
 
     @Test
     public void givenUserId_shouldReturnRideListAndInvoiceSummary() {
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 4.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 4.0)));
+        invoice.addRides("abc1", rideList);
         // rides list
-        String ridesList = invoice.showRideList("1");
+        String ridesList = invoice.showRideList("abc1");
         StringBuilder expectedRidesList = new StringBuilder();
-        expectedRidesList.append("User Id:").append("1");
-        for (Ride ride : invoice.getUserRidesMap().get("1")) {
-            expectedRidesList.append("\nDistance: ");
-            expectedRidesList.append(ride.getDistance().getDistanceInKm());
-            expectedRidesList.append("\tTime: ");
-            expectedRidesList.append(ride.getTime().getTimeInMin());
-        }
-        Assertions.assertEquals(expectedRidesList.toString(), ridesList);
-
-        // invoice summary
-        String invoiceSummary = invoice.getSummary("1");
-        double noOfRides = 4.0, totalAggregateFare = 44.0, averageFarePerRide = 11.0;
-        String expectedSummary = "Total number of rides: " + noOfRides + "\nTotal fare amount: " + totalAggregateFare + "\nAverage Fare per ride: " + averageFarePerRide;
-        Assertions.assertEquals(expectedSummary, invoiceSummary);
-    }
-
-    @Test
-    public void givenUserIdForNormalAndPremiumRides_shouldReturnRideListAndInvoiceSummary() {
-        // Normal Rides
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
-        invoice.addRides("1", new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 4.0)));
-        // Premium Rides
-        invoice.addRides("1", new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
-        invoice.addRides("1", new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
-        invoice.addRides("1", new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
-        invoice.addRides("1", new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 4.0)));
-
-        // rides list
-        String ridesList = invoice.showRideList("1");
-        StringBuilder expectedRidesList = new StringBuilder();
-        expectedRidesList.append("User Id:").append("1");
-        for (Ride ride : invoice.getUserRidesMap().get("1")) {
+        expectedRidesList.append("User Id:").append("abc1");
+        for (Ride ride : invoice.getUserRidesMap().get("abc1")) {
             expectedRidesList.append("\nRide Type: ");
             expectedRidesList.append(ride.getType());
             expectedRidesList.append("\nDistance: ");
@@ -103,7 +74,56 @@ public class InvoiceServiceTest {
         Assertions.assertEquals(expectedRidesList.toString(), ridesList);
 
         // invoice summary
-        String invoiceSummary = invoice.getSummary("1");
+        String invoiceSummary = invoice.getInvoiceSummary("abc1");
+        double noOfRides = 4.0, totalAggregateFare = 44.0, averageFarePerRide = 11.0;
+        String expectedSummary = "Total number of rides: " + noOfRides + "\nTotal fare amount: " + totalAggregateFare + "\nAverage Fare per ride: " + averageFarePerRide;
+        Assertions.assertEquals(expectedSummary, invoiceSummary);
+    }
+
+    @Test
+    public void given2KmAnd5Min_PremiumRide_shouldReturn40AsTotalPremiumRideFare() {
+        Ride ride = new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0));
+        double fare = invoice.calculateFare(ride);
+        Assertions.assertEquals(40, fare);
+    }
+
+    @Test
+    public void given100MeterAnd1Min_PremiumRide_shouldReturnMinimumPremiumRideFare() {
+        Ride ride = new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.METER, 100.0), new MeasuredUnit(Unit.MIN, 1.0));
+        double fare = invoice.calculateFare(ride);
+        Assertions.assertEquals(20, fare);
+    }
+    @Test
+    public void givenUserIdForNormalAndPremiumRides_shouldReturnRideListAndInvoiceSummary() {
+        // Normal Rides
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
+        rideList.add(new Ride(RideType.NORMAL, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 4.0)));
+        // Premium Rides
+        rideList.add(new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.KM, 2.0), new MeasuredUnit(Unit.MIN, 5.0)));
+        rideList.add(new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.METER, 500.0), new MeasuredUnit(Unit.MIN, 3.0)));
+        rideList.add(new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 1.0)));
+        rideList.add(new Ride(RideType.PREMIUM, new MeasuredUnit(Unit.METER, 200.0), new MeasuredUnit(Unit.MIN, 4.0)));
+        // add rides
+        invoice.addRides("abc1", rideList);
+
+        // rides list
+        String ridesList = invoice.showRideList("abc1");
+        StringBuilder expectedRidesList = new StringBuilder();
+        expectedRidesList.append("User Id:").append("abc1");
+        for (Ride ride : invoice.getUserRidesMap().get("abc1")) {
+            expectedRidesList.append("\nRide Type: ");
+            expectedRidesList.append(ride.getType());
+            expectedRidesList.append("\nDistance: ");
+            expectedRidesList.append(ride.getDistance().getDistanceInKm());
+            expectedRidesList.append("\tTime: ");
+            expectedRidesList.append(ride.getTime().getTimeInMin());
+        }
+        Assertions.assertEquals(expectedRidesList.toString(), ridesList);
+
+        // invoice summary
+        String invoiceSummary = invoice.getInvoiceSummary("abc1");
         double noOfRides = 8.0, totalAggregateFare = 144.0, averageFarePerRide = 18.0;
         String expectedSummary = "Total number of rides: " + noOfRides + "\nTotal fare amount: " + totalAggregateFare + "\nAverage Fare per ride: " + averageFarePerRide;
         Assertions.assertEquals(expectedSummary, invoiceSummary);

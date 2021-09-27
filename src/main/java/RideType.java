@@ -1,5 +1,6 @@
 public enum RideType {
-    NORMAL(10, 1, 5), PREMIUM(15, 2, 20);
+    NORMAL(10, 1, 5),
+    PREMIUM(15, 2, 20);
     private final double ratePerKm, ratePerMin, minRate;
 
     RideType(double ratePerKm, double ratePerMin, double minRate) {
