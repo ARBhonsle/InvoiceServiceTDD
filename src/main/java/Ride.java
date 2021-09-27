@@ -19,4 +19,9 @@ public class Ride {
     public RideType getType() {
         return type;
     }
+
+    public double calculateFare() {
+        double totalFare = this.getDistance().getDistanceInKm() * this.getType().getRatePerKm() + this.getTime().getTimeInMin() * this.getType().getRatePerMin();
+        return Math.max(totalFare,this.getType().getMinRate());
+    }
 }

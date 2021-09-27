@@ -9,8 +9,7 @@ public class InvoiceService {
     }
 
     public double calculateFare(Ride ride) {
-        double totalFare = ride.getDistance().getDistanceInKm() * ride.getType().getRatePerKm() + ride.getTime().getTimeInMin() * ride.getType().getRatePerMin();
-        return Math.max(totalFare, ride.getType().getMinRate());
+        return ride.calculateFare();
     }
 
     public double getTotalAggregateFare(String userId) {
