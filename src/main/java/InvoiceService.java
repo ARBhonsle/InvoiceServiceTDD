@@ -4,8 +4,8 @@ import java.util.HashMap;
 public class InvoiceService {
     RideRepository rideRepository;
 
-    InvoiceService(){
-        rideRepository = new RideRepository();
+    public void setRideRepository(RideRepository rideRepository) {
+        this.rideRepository = rideRepository;
     }
 
     public double calculateFare(Ride ride) {

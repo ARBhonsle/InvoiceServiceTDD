@@ -7,10 +7,13 @@ import java.util.ArrayList;
 public class InvoiceServiceTest {
     static InvoiceService invoice;
     static ArrayList<Ride> rideList;
+    static RideRepository rideRepository;
 
     @BeforeEach
     public void setUp() {
         invoice = new InvoiceService();
+        rideRepository = new RideRepository();
+        invoice.setRideRepository(rideRepository);
         rideList = new ArrayList<>();
     }
 
