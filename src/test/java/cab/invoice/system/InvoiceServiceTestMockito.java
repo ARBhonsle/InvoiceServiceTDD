@@ -1,3 +1,5 @@
+package cab.invoice.system;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import static org.mockito.Mockito.*;
 //@RunWith(MockitoJUnitRunner.class)
 public class InvoiceServiceTestMockito {
     static ArrayList<Ride> rideList;
+
 //    @Rule
 //    public MockitoRule rule = MockitoJUnit.rule();
 
@@ -93,13 +96,13 @@ public class InvoiceServiceTestMockito {
 
         // rides list
         String showList = "User Id:abc1\n" +
-                "Ride Type: NORMAL\n" +
+                "cab.invoice.system.Ride Type: NORMAL\n" +
                 "Distance: 2.0\tTime: 5.0\n" +
-                "Ride Type: NORMAL\n" +
+                "cab.invoice.system.Ride Type: NORMAL\n" +
                 "Distance: 0.5\tTime: 3.0\n" +
-                "Ride Type: NORMAL\n" +
+                "cab.invoice.system.Ride Type: NORMAL\n" +
                 "Distance: 0.2\tTime: 1.0\n" +
-                "Ride Type: NORMAL\n" +
+                "cab.invoice.system.Ride Type: NORMAL\n" +
                 "Distance: 0.2\tTime: 4.0";
         when(rideRepository.showRideList(userId)).thenReturn(showList);
         String ridesList = invoice.showRideList(userId);
@@ -109,7 +112,7 @@ public class InvoiceServiceTestMockito {
 
         when(rideRepository.getUserRides(userId)).thenReturn(rideList);
         for (Ride ride : invoice.getUserRidesList(userId)) {
-            expectedRidesList.append("\nRide Type: ");
+            expectedRidesList.append("\ncab.invoice.system.Ride Type: ");
             expectedRidesList.append(ride.getType());
             expectedRidesList.append("\nDistance: ");
             expectedRidesList.append(ride.distanceInKm);
@@ -164,21 +167,21 @@ public class InvoiceServiceTestMockito {
 
         // rides list
         String showList = "User Id:abc1\n" +
-                "Ride Type: NORMAL\n" +
+                "cab.invoice.system.Ride Type: NORMAL\n" +
                 "Distance: 2.0\tTime: 5.0\n" +
-                "Ride Type: NORMAL\n" +
+                "cab.invoice.system.Ride Type: NORMAL\n" +
                 "Distance: 0.5\tTime: 3.0\n" +
-                "Ride Type: NORMAL\n" +
+                "cab.invoice.system.Ride Type: NORMAL\n" +
                 "Distance: 0.2\tTime: 1.0\n" +
-                "Ride Type: NORMAL\n" +
+                "cab.invoice.system.Ride Type: NORMAL\n" +
                 "Distance: 0.2\tTime: 4.0\n" +
-                "Ride Type: PREMIUM\n" +
+                "cab.invoice.system.Ride Type: PREMIUM\n" +
                 "Distance: 2.0\tTime: 5.0\n" +
-                "Ride Type: PREMIUM\n" +
+                "cab.invoice.system.Ride Type: PREMIUM\n" +
                 "Distance: 0.5\tTime: 3.0\n" +
-                "Ride Type: PREMIUM\n" +
+                "cab.invoice.system.Ride Type: PREMIUM\n" +
                 "Distance: 0.2\tTime: 1.0\n" +
-                "Ride Type: PREMIUM\n" +
+                "cab.invoice.system.Ride Type: PREMIUM\n" +
                 "Distance: 0.2\tTime: 4.0";
         when(rideRepository.showRideList(userId)).thenReturn(showList);
         String ridesList = invoice.showRideList(userId);
@@ -187,7 +190,7 @@ public class InvoiceServiceTestMockito {
 
         when(rideRepository.getUserRides(userId)).thenReturn(rideList);
         for (Ride ride : invoice.getUserRidesList(userId)) {
-            expectedRidesList.append("\nRide Type: ");
+            expectedRidesList.append("\ncab.invoice.system.Ride Type: ");
             expectedRidesList.append(ride.getType());
             expectedRidesList.append("\nDistance: ");
             expectedRidesList.append(ride.distanceInKm);

@@ -1,4 +1,6 @@
-// enum RideType
+package cab.invoice.system;
+
+// enum cab.invoice.system.RideType
 enum RideType {
     NORMAL(10, 1, 5),
     PREMIUM(15, 2, 20);
@@ -10,7 +12,7 @@ enum RideType {
         this.minRate = minRate;
     }
 }
-// class Ride
+// class cab.invoice.system.Ride
 public class Ride {
     final double distanceInKm;
     final double timeInMin;

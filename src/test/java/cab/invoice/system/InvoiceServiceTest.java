@@ -1,3 +1,5 @@
+package cab.invoice.system;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +69,7 @@ public class InvoiceServiceTest {
         StringBuilder expectedRidesList = new StringBuilder();
         expectedRidesList.append("User Id:").append("abc1");
         for (Ride ride : invoice.getUserRidesList("abc1")) {
-            expectedRidesList.append("\nRide Type: ");
+            expectedRidesList.append("\ncab.invoice.system.Ride Type: ");
             expectedRidesList.append(ride.getType());
             expectedRidesList.append("\nDistance: ");
             expectedRidesList.append(ride.distanceInKm);
@@ -116,7 +118,7 @@ public class InvoiceServiceTest {
         StringBuilder expectedRidesList = new StringBuilder();
         expectedRidesList.append("User Id:").append("abc1");
         for (Ride ride : invoice.getUserRidesList("abc1")) {
-            expectedRidesList.append("\nRide Type: ");
+            expectedRidesList.append("\ncab.invoice.system.Ride Type: ");
             expectedRidesList.append(ride.getType());
             expectedRidesList.append("\nDistance: ");
             expectedRidesList.append(ride.distanceInKm);

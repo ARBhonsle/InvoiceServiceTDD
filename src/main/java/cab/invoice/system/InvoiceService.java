@@ -1,3 +1,5 @@
+package cab.invoice.system;
+
 import java.util.ArrayList;
 
 public class InvoiceService {

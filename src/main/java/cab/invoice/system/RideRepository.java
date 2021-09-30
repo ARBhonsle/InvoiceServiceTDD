@@ -1,3 +1,5 @@
+package cab.invoice.system;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -45,7 +47,7 @@ public class RideRepository {
         StringBuilder showRideDetails = new StringBuilder();
         showRideDetails.append("User Id:").append(userId);
         for (Ride ride : userRidesMap.get(userId)) {
-            showRideDetails.append("\nRide Type: ");
+            showRideDetails.append("\ncab.invoice.system.Ride Type: ");
             showRideDetails.append(ride.getType());
             showRideDetails.append("\nDistance: ");
             showRideDetails.append(ride.distanceInKm);
