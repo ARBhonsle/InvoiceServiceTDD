@@ -1,27 +1,28 @@
+// enum RideType
+enum RideType {
+    NORMAL(10, 1, 5),
+    PREMIUM(15, 2, 20);
+    final double ratePerKm, ratePerMin, minRate;
+
+    RideType(double ratePerKm, double ratePerMin, double minRate) {
+        this.ratePerKm = ratePerKm;
+        this.ratePerMin = ratePerMin;
+        this.minRate = minRate;
+    }
+}
+// class Ride
 public class Ride {
-    private final MeasuredUnit distance, time;
+    final double distanceInKm;
+    final double timeInMin;
     private final RideType type;
 
-    public Ride(RideType type,MeasuredUnit distance, MeasuredUnit time) {
-        this.type =type;
-        this.distance = distance;
-        this.time = time;
-    }
-
-    public MeasuredUnit getDistance() {
-        return distance;
-    }
-
-    public MeasuredUnit getTime() {
-        return time;
+    public Ride(RideType type, double distanceInKm, double timeInMin) {
+        this.type = type;
+        this.distanceInKm = distanceInKm;
+        this.timeInMin = timeInMin;
     }
 
     public RideType getType() {
         return type;
-    }
-
-    public double calculateFare() {
-        double totalFare = this.getDistance().getDistanceInKm() * this.getType().getRatePerKm() + this.getTime().getTimeInMin() * this.getType().getRatePerMin();
-        return Math.max(totalFare,this.getType().getMinRate());
     }
 }

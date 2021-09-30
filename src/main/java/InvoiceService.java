@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class InvoiceService {
     RideRepository rideRepository;
@@ -8,34 +7,27 @@ public class InvoiceService {
         this.rideRepository = rideRepository;
     }
 
-    public double calculateFare(Ride ride) {
-        return ride.calculateFare();
+    public double calculateFare(RideType type, double distanceInKm, double timeInMin) {
+        return rideRepository.calculateFare(type,distanceInKm,timeInMin);
     }
 
     public double getTotalAggregateFare(String userId) {
-        double totalAggregateFare = 0;
-        for (Ride ride : rideRepository.getUserRidesMap().get(userId)) {
-            totalAggregateFare += calculateFare(ride);
-        }
-        return totalAggregateFare;
+        return rideRepository.getTotalAggregateFare(userId);
     }
 
     public String getInvoiceSummary(String userId) {
-        double totalLength = rideRepository.getUserRidesMap().get(userId).size();
-        return "Total number of rides: " + totalLength + "\nTotal fare amount: " + getTotalAggregateFare(userId) + "\nAverage Fare per ride: " + (getTotalAggregateFare(userId) / totalLength);
+        return rideRepository.getInvoiceSummary(userId);
     }
 
-    public void addRides(String userId, ArrayList<Ride> rideList) {
-        for(Ride ride : rideList){
-            rideRepository.addRides(userId,ride);
-        }
+    public ArrayList<Ride> addRides(String userId, ArrayList<Ride> rideList) {
+            return rideRepository.addRides(userId, rideList);
     }
 
     public String showRideList(String userId) {
         return rideRepository.showRideList(userId);
     }
 
-    public HashMap<String, ArrayList<Ride>> getUserRidesMap(){
-        return rideRepository.getUserRidesMap();
+    public ArrayList<Ride> getUserRidesList(String userId) {
+        return rideRepository.getUserRides(userId);
     }
 }
